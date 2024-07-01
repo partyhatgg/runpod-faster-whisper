@@ -1,12 +1,15 @@
 <div align="center">
 
-<h1>Faster Whisper | Worker</h1>
+<h1>Faster Whisper | Runpod Worker</h1>
 
-This repository contains the [Faster Whisper](https://github.com/guillaumekln/faster-whisper) Worker for RunPod. The Whisper Worker is designed to process audio files using various Whisper models, with options for transcription formatting, language translation, and more. It's part of the RunPod Workers collection aimed at providing diverse functionality for endpoint processing.
+This repository contains a modified version of [RunPod](https://runpod.io)'s [Faster Whisper Worker](https://github.com/runpod-workers/worker-faster_whisper) Worker for RunPod. This worker makes concessions and modifications the Runpod worker would be unable to make for wider adoption.
 
-[Endpoint Docs](https://docs.runpod.io/reference/faster-whisper)
+> [!NOTE]
+> This worker only provides users the `medium` and `large-v3` models. 
 
-[Docker Image](https://hub.docker.com/r/runpod/ai-api-faster-whisper)
+[Docker Image](https://github.com/partyhatgg/runpod-faster-whisper)
+
+[RunPod Endpoint Docs](https://docs.runpod.io/serverless/endpoints/overview)
 
 </div>
 
@@ -14,20 +17,19 @@ This repository contains the [Faster Whisper](https://github.com/guillaumekln/fa
 
 | Input                               | Type  | Description                                                                                                                                              |
 |-------------------------------------|-------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `audio`                             | Path  | Audio file                                                                                                                                               |
-| `audio_base64`                      | str   | Base64-encoded audio file                                                                                                                                |
-| `model`                             | str   | Choose a Whisper model. Choices: "tiny", "base", "small", "medium", "large-v1", "large-v2", "large-v3". Default: "base"                                  |
-| `transcription`                     | str   | Choose the format for the transcription. Choices: "plain_text", "formatted_text", "srt", "vtt". Default: "plain_text"                                    |
-| `translate`                         | bool  | Translate the text to English when set to True. Default: False                                                                                           |
-| `translation`                       | str   | Choose the format for the translation. Choices: "plain_text", "formatted_text", "srt", "vtt". Default: "plain_text"                                      |
-| `language`                          | str   | Language spoken in the audio, specify None to perform language detection. Default: None                                                                  |
+| `audio`                             | Path  | An Audio file as a path or URL.                                                                                                                          |
+| `audio_base64`                      | str   | An Audio file as a Base64-encoded string.                                                                                                                |
+| `model`                             | str   | A supported Whisper model. Choices: "medium", "large-v3". Default: "medium"                                                                              |
+| `transcription`                     | str   | A supported format for the resulting transcription. Choices: "plain_text", "formatted_text", "srt", "vtt". Default: "plain_text"                         |
+| `translate`                         | bool  | If True, translates the text to English. Default: False                                                                                                  |
+| `translation`                       | str   | A supported format for the resulting translation. Choices: "plain_text", "formatted_text", "srt", "vtt". Default: "plain_text"                           |
+| `language`                          | str   | Language spoken in the audio, if known. Otherwise specify None to perform language detection. Default: None                                              |
 | `temperature`                       | float | Temperature to use for sampling. Default: 0                                                                                                              |
 | `best_of`                           | int   | Number of candidates when sampling with non-zero temperature. Default: 5                                                                                 |
 | `beam_size`                         | int   | Number of beams in beam search, only applicable when temperature is zero. Default: 5                                                                     |
 | `patience`                          | float | Optional patience value to use in beam decoding. Default: None                                                                                           |
 | `length_penalty`                    | float | Optional token length penalty coefficient (alpha). Default: None                                                                                         |
-| `suppress_tokens`                   | str   | Comma-separated list of token ids to suppress during sampling. Default: "-1"                                                                             |
-| `initial_prompt`                    | str   | Optional text to provide as a prompt for the first window. Default: None                                                                                 |
+| `initial_prompt`                    | str   | An optional string to provide as a prompt for the first window. Default: None                                                                            |
 | `condition_on_previous_text`        | bool  | If True, provide the previous output of the model as a prompt for the next window. Default: True                                                         |
 | `temperature_increment_on_fallback` | float | Temperature to increase when falling back when the decoding fails. Default: 0.2                                                                          |
 | `compression_ratio_threshold`       | float | If the gzip compression ratio is higher than this value, treat the decoding as failed. Default: 2.4                                                      |

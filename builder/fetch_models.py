@@ -1,14 +1,14 @@
 from concurrent.futures import ThreadPoolExecutor
 from faster_whisper import WhisperModel
 
-model_names = ["tiny", "base", "small", "medium", "large-v1", "large-v2", "large-v3"]
+model_names = ["medium", "large-v3"]
 
 
 def load_model(selected_model):
     '''
     Load and cache models in parallel
     '''
-    for _attempt in range(5):
+    for _attempt in range(2):
         while True:
             try:
                 loaded_model = WhisperModel(

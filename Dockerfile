@@ -1,5 +1,10 @@
 # Use specific version of nvidia cuda image
-FROM nvidia/cuda:11.7.1-cudnn8-runtime-ubuntu20.04
+FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
+
+# Labeling for GHCR, then we'll build the image :)
+LABEL org.opencontainers.image.source=https://github.com/partyhatgg/runpod-faster-whisper
+LABEL org.opencontainers.image.description="A slimmer, more efficient Faster Whisper image for use with the RunPod serverless platform."
+LABEL org.opencontainers.image.licenses=MIT
 
 # Remove any third-party apt sources to avoid issues with expiring keys.
 RUN rm -f /etc/apt/sources.list.d/*.list
