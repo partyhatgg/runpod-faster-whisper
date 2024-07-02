@@ -19,8 +19,7 @@ WORKDIR /
 
 # Update and upgrade the system packages (Worker Template)
 RUN apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get install --yes --no-install-recommends sudo ca-certificates git wget curl bash libgl1 libx11-6 software-properties-common ffmpeg build-essential -y &&\
+    apt-get install --yes --no-install-recommends git wget curl software-properties-common -y &&\
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
@@ -48,9 +47,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     rm /requirements.txt
 
 # Copy and run script to fetch models
-COPY builder/fetch_models.py /fetch_models.py
-RUN python /fetch_models.py && \
-    rm /fetch_models.py
+COPY .models .
 
 # Copy source code into image
 COPY src .

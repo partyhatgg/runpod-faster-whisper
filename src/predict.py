@@ -24,7 +24,8 @@ class Predictor:
         loaded_model = WhisperModel(
             model_name,
             device="cuda" if rp_cuda.is_available() else "cpu",
-            compute_type="float16" if rp_cuda.is_available() else "int8")
+            compute_type="float16" if rp_cuda.is_available() else "int8",
+            download_root="./.models")
 
         return model_name, loaded_model
 
