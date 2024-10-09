@@ -1,8 +1,8 @@
+import base64
 import io
 
 import numpy as np
 from locust import HttpUser, task
-import base64
 from pydub import AudioSegment
 
 
