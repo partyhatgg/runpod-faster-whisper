@@ -20,7 +20,7 @@ WORKDIR /
 # Update and upgrade the system packages (Worker Template)
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install --yes --no-install-recommends sudo ca-certificates git wget curl bash libgl1 libx11-6 software-properties-common build-essential -y &&\
+    apt-get install --yes --no-install-recommends git wget curl software-properties-common -y &&\
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
@@ -34,11 +34,6 @@ RUN add-apt-repository ppa:deadsnakes/ppa -y && \
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
-
-# Download and install pip
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-    python get-pip.py && \
-    rm get-pip.py
 
 # Install Python dependencies (Worker Template)
 COPY builder/requirements.txt /requirements.txt
@@ -56,4 +51,4 @@ RUN python /fetch_models.py && \
 COPY src .
 
 # Set default command
-CMD python -u /rp_handler.py
+CMD ["python", "-u", "/rp_handler.py"]
