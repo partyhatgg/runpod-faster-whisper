@@ -1,15 +1,11 @@
 <div align="center">
 
-<h1>Faster Whisper | Runpod Worker</h1>
+<h1>Faster Whisper | RunPod Worker</h1>
 
-This repository contains a modified version of [RunPod](https://runpod.io)'s [Faster Whisper Worker](https://github.com/runpod-workers/worker-faster_whisper) Worker for RunPod. This worker makes concessions and modifications the Runpod worker would be unable to make for wider adoption.
+This repository contains a modified version of [RunPod](https://runpod.io)'s [Faster Whisper Worker](https://github.com/runpod-workers/worker-faster_whisper) Worker for RunPod. This opinionated worker decisions and modifications the RunPod worker would be unable to make for wider adoption.
 
-> [!NOTE]
-> This worker only provides users the `medium` and `large-v3` models. 
-
-[Docker Image](https://github.com/partyhatgg/runpod-faster-whisper)
-
-[RunPod Endpoint Docs](https://docs.runpod.io/serverless/endpoints/overview)
+[!NOTE]
+This worker only provides users the `medium` and `large-v3` models. 
 
 </div>
 
@@ -19,7 +15,7 @@ This repository contains a modified version of [RunPod](https://runpod.io)'s [Fa
 |-------------------------------------|-------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `audio`                             | Path  | An Audio file as a path or URL.                                                                                                                          |
 | `audio_base64`                      | str   | An Audio file as a Base64-encoded string.                                                                                                                |
-| `model`                             | str   | A supported Whisper model. Choices: "medium", "large-v3". Default: "medium"                                                                              |
+| `model`                             | str   | A supported Whisper model. Choices: "medium", "turbo". Default: "medium"                                                                              |
 | `transcription`                     | str   | A supported format for the resulting transcription. Choices: "plain_text", "formatted_text", "srt", "vtt". Default: "plain_text"                         |
 | `translate`                         | bool  | If True, translates the text to English. Default: False                                                                                                  |
 | `translation`                       | str   | A supported format for the resulting translation. Choices: "plain_text", "formatted_text", "srt", "vtt". Default: "plain_text"                           |
@@ -77,7 +73,7 @@ The following inputs can be used for testing the model:
     "transcription": "Hola mundo.",
     "translation": null,
     "device": "cuda",
-    "model": "large-v2",
+    "model": "turbo",
     "translation_time": 0.7796223163604736
 }
 ```

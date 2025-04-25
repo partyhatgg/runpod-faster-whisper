@@ -30,7 +30,7 @@ class Predictor:
 
     def setup(self):
         """Load the model into memory to make running multiple predictions efficient"""
-        model_names = ["medium", "large-v3"]
+        model_names = ["medium", "turbo"]
         with ThreadPoolExecutor() as executor:
             for model_name, model in executor.map(self.load_model, model_names):
                 if model_name is not None:
