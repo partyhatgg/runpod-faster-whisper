@@ -17,7 +17,7 @@ WORKDIR /
 # Update and upgrade the system packages (Worker Template)
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends git wget curl software-properties-common python3-pip python-is-python3 libcudnn8 && \
+    apt-get install -y --no-install-recommends libcudnn8 python3-pip python-is-python3 && \
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/*.list
