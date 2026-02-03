@@ -1,39 +1,26 @@
-# Use specific version of nvidia cuda image
-FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
+# Use nvidia cuda image with cudnn
+FROM runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404
 
-# Labeling for GHCR, then we'll build the image :)
 LABEL org.opencontainers.image.source=https://github.com/partyhatgg/runpod-faster-whisper
 LABEL org.opencontainers.image.description="A slimmer, more efficient Faster Whisper image for use with the RunPod serverless platform."
 LABEL org.opencontainers.image.licenses=MIT
 
-# Set shell and noninteractive environment variables
-SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
 ENV SHELL=/bin/bash
 
-# Set working directory
-WORKDIR /
+ENV HF_HOME=/runpod-volume/.cache/huggingface
 
-# Update and upgrade the system packages (Worker Template)
-RUN apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends libcudnn8 python3-pip python-is-python3 && \
-    apt-get autoremove -y && \
-    apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/*.list
+# NOTICE: This variable will cause uv sync to uninstall system dependencies that are not in the pyproject.toml file.
+# This includes Jupyter, which is installed by default in the base image. 
+# You can avoid this by unsetting UV_PROJECT_ENVIRONMENT to use a venv or switching to pip to manage system packages.
+ENV UV_PROJECT_ENVIRONMENT=/usr/local
 
-# Install Python dependencies (Worker Template)
-COPY builder/requirements.txt /requirements.txt
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -r /requirements.txt --no-cache-dir && \
-    rm /requirements.txt
+WORKDIR /opt/worker
 
-# Copy and run script to fetch models
-COPY builder/fetch_models.py /fetch_models.py
-RUN python /fetch_models.py && rm /fetch_models.py
+COPY pyproject.toml uv.lock ./
 
-# Copy source code into image
-COPY src .
+RUN uv sync --no-dev
 
-# Set default command
-CMD ["python", "-u", "/rp_handler.py"]
+COPY src ./src
+
+CMD ["python", "-m", "src.handler"]

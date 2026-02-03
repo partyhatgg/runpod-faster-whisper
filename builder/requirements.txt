@@ -1,5 +1,0 @@
-runpod~=1.7.9
-
-faster-whisper==1.1.1
-
-hf_xet==1.0.5
