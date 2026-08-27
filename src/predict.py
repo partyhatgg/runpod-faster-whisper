@@ -5,7 +5,12 @@ from faster_whisper import WhisperModel
 from faster_whisper.utils import format_timestamp
 from runpod.serverless.utils import rp_cuda
 
-MODEL_NAMES = ["medium", "turbo"]
+MODEL_NAMES = ["turbo"]
+
+# faster-whisper's "turbo" alias resolves to mobiuslabsgmbh/faster-whisper-large-v3-turbo, which HF
+# has moved to dropbox-dash/...; request the canonical repo id directly so it matches the RunPod Model
+# Cache pin exactly (same models--dropbox-dash--... folder) and the cache hits instead of re-downloading.
+TURBO_REPO = "dropbox-dash/faster-whisper-large-v3-turbo"
 
 
 class Predictor:
@@ -14,7 +19,7 @@ class Predictor:
 
     def load_model(self, model_name):
         loaded_model = WhisperModel(
-            model_name,
+            TURBO_REPO if model_name == "turbo" else model_name,
             device="cuda" if rp_cuda.is_available() else "cpu",
             compute_type="float16" if rp_cuda.is_available() else "int8",
         )
@@ -29,7 +34,7 @@ class Predictor:
     def predict(
         self,
         audio,
-        model_name="medium",
+        model_name="turbo",
         transcription="plain_text",
         translate=False,
         translation="plain_text",
